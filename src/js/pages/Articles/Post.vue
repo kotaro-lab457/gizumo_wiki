@@ -1,5 +1,16 @@
 <template lang="html">
   <div>
-    ドキュメントの新規作成画面です
+    <article-post />
   </div>
 </template>
+<script>
+import { ArticlePost } from '@Components/molecules'
+
+export default {
+  components: {
+    articlePost: ArticlePost
+  },
+  
+}
+
+</script>
