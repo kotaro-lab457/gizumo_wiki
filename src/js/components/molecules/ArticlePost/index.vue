@@ -1,9 +1,9 @@
 <template lang="html">
-  <div class="article-post">
+  <div>
     <div v-if="doneMessage">
       <app-text bg-success>{{ doneMessage }}</app-text>
     </div>
-    <div>
+    <div class="article-post">
       <section>
         <app-heading :level="1">記事の新規作成</app-heading>
         <app-heading :level="2">カテゴリーの選択</app-heading>
@@ -41,22 +41,32 @@
           placeholder="記事のタイトルを入力してください。"
           data-vv-as="タイトル"
           :error-messages="errors.collect('title')"
+          :value="articleTitle"
+          @updateValue="$emit('titleArticle', $event)"
         />
         <div v-if="errorMessages">
           <app-text bg-error>{{ errorMessage }}</app-text>
         </div>
         <app-textarea
+          v-validate="'required'"
+          name="content"
           placeholder="記事の本文をマークダウン記法で入力してください。"
+          data-vv-as="記事の本文"
+          :error-messages="errors.collect('content')"
+          :value="articleContent"
+          @updateValue="$emit('contentArticle', $event)"
         />
         <app-button
           round
         >
           作成
         </app-button>
-        <article>
-          <app-markdown-preview />
-        </article>
       </section>
+        <article>
+          <app-markdown-preview
+            :markdown-content="markdownContent"
+          />
+        </article>
     </div>
   </div>
 </template>
@@ -83,6 +93,10 @@ export default {
     appText: Text,
   },
   props: {
+    title: {
+      type: String,
+      default: '',
+    },
     doneMessage: {
       type: String,
       default: '',
@@ -99,13 +113,25 @@ export default {
       type: Array,
       default: () => [],
     },
+    articleTitle: {
+      type: String,
+      default: '',
+    },
+    articleContent: {
+      type: String,
+      default: '',
+    },
+    markdownContent: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
 
 <style lang="postcss" scoped>
 .article-post {
-  /* display: flex; */
+  display: flex;
 }
 
 </style>
