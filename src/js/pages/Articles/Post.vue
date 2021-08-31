@@ -2,7 +2,6 @@
   <div>
     <article-post
       :title="title"
-      :done-message="doneMessage"
       :error-message="errorMessage"
       :selected-category-name="selectedCategoryName"
       :category-list="categoryList"
@@ -31,9 +30,6 @@ export default {
     };
   },
   computed: {
-    doneMessage() {
-      return this.$store.state.articles.doneMessage;
-    },
     errorMessage() {
       return this.$store.state.articles.errorMessage;
     },
@@ -61,6 +57,7 @@ export default {
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
+    this.$store.dispatch('articles/initPostArticle');
   },
   methods: {
     selectedCategory($event) {

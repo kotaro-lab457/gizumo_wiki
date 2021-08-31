@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
-    <div v-if="doneMessage">
-      <app-text bg-success>{{ doneMessage }}</app-text>
+    <div v-if="errorMessage">
+      <app-text bg-error>{{ errorMessage }}</app-text>
     </div>
     <div class="article-post">
       <section>
@@ -96,10 +96,6 @@ export default {
   },
   props: {
     title: {
-      type: String,
-      default: '',
-    },
-    doneMessage: {
       type: String,
       default: '',
     },
