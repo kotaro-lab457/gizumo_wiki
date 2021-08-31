@@ -58,6 +58,8 @@
         />
         <app-button
           round
+          type="button"
+          @click="handleSubmit"
         >
           作成
         </app-button>
@@ -125,6 +127,19 @@ export default {
       type: String,
       default: '',
     },
+    access: {
+      type: Object,
+      default: () => ({}),
+    }
+  },
+  methods: {
+    handleSubmit() {
+      if(!this.access.create) return;
+      this.$emit('clearMessage');
+      this.$validator.validate().then((valid) => {
+        if (valid) this.$emit('handleSubmit');
+      });
+    }
   },
 };
 </script>

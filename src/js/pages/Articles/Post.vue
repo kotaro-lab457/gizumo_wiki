@@ -9,9 +9,12 @@
       :article-title="articleTitle"
       :article-content="articleContent"
       :markdown-content="markdownContent"
+      :access="access"
       @selectedCategory="selectedCategory"
       @titleArticle="titleArticle"
       @contentArticle="contentArticle"
+      @handleSubmit="handleSubmit"
+      @clearMessage="clearMessage"
     />
   </div>
 </template>
@@ -49,6 +52,12 @@ export default {
     markdownContent() {
       return `# ${this.articleTitle}\n${this.articleContent}`;
     },
+    loading() {
+      return this.$store.state.articles.loading;
+    },
+    access() {
+      return this.$store.getters['auth/access'];
+    },
   },
   created() {
     this.$store.dispatch('categories/getAllCategories');
@@ -65,6 +74,15 @@ export default {
     contentArticle($event) {
       const value = $event.target.value;
       this.$store.dispatch('articles/editedContent', value);
+    },
+    clearMessage() {
+      this.$store.dispatch('articles/clearMessage');
+    },
+    handleSubmit() {
+      if (this.loading) return;
+      this.$store.dispatch('articles/postArticle').then(() => {
+        this.$router.push('/articles');
+      });
     },
   },
 };
