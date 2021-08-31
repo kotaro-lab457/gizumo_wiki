@@ -13,7 +13,6 @@
       @titleArticle="titleArticle"
       @contentArticle="contentArticle"
       @handleSubmit="handleSubmit"
-      @clearMessage="clearMessage"
     />
   </div>
 </template>
@@ -27,6 +26,7 @@ export default {
   data() {
     return {
       title: '',
+      content: '',
     };
   },
   computed: {
@@ -61,24 +61,24 @@ export default {
   },
   methods: {
     selectedCategory($event) {
-      const value = $event.target.value;
+      const { value } = $event.target.value;
       this.$store.dispatch('articles/selectedArticleCategory', value);
     },
     titleArticle($event) {
-      const value = $event.target.value;
-      this.$store.dispatch('articles/editedTitle', value);
+      const title = $event.target.value;
+      this.$store.dispatch('articles/editedTitle', title);
     },
     contentArticle($event) {
-      const value = $event.target.value;
-      this.$store.dispatch('articles/editedContent', value);
-    },
-    clearMessage() {
-      this.$store.dispatch('articles/clearMessage');
+      const content = $event.target.value;
+      this.$store.dispatch('articles/editedContent', content);
     },
     handleSubmit() {
       if (this.loading) return;
       this.$store.dispatch('articles/postArticle').then(() => {
-        this.$router.push('/articles');
+        this.$router.push({
+          path: '/articles',
+          query: { redirect: '/article/post' },
+        });
       });
     },
   },

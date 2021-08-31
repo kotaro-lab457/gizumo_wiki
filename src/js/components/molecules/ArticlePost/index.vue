@@ -30,9 +30,6 @@
             {{ category.name }}
           </option>
         </app-select>
-        <div v-if="errorMessages">
-          <app-text bg-error>{{ errorMessage }}</app-text>
-        </div>
         <app-heading :level="2">タイトル・本文</app-heading>
         <app-input
           v-validate="'required'"
@@ -44,9 +41,6 @@
           :value="articleTitle"
           @updateValue="$emit('titleArticle', $event)"
         />
-        <div v-if="errorMessages">
-          <app-text bg-error>{{ errorMessage }}</app-text>
-        </div>
         <app-textarea
           v-validate="'required'"
           name="content"
@@ -59,16 +53,17 @@
         <app-button
           round
           type="button"
+          :disabled="!disabled"
           @click="handleSubmit"
         >
-          作成
+          {{ buttonText }}
         </app-button>
       </section>
-        <article>
-          <app-markdown-preview
-            :markdown-content="markdownContent"
-          />
-        </article>
+      <article>
+        <app-markdown-preview
+          :markdown-content="markdownContent"
+        />
+      </article>
     </div>
   </div>
 </template>
@@ -126,16 +121,24 @@ export default {
     access: {
       type: Object,
       default: () => ({}),
-    }
+    },
+  },
+  computed: {
+    buttonText() {
+      if (!this.access.create) return '作成権限がありません。';
+      return this.loading ? '作成中...' : '作成';
+    },
+    disabled() {
+      return this.access.create && !this.loading;
+    },
   },
   methods: {
     handleSubmit() {
-      if(!this.access.create) return;
-      this.$emit('clearMessage');
+      if (!this.access.create) return;
       this.$validator.validate().then((valid) => {
         if (valid) this.$emit('handleSubmit');
       });
-    }
+    },
   },
 };
 </script>
@@ -144,5 +147,4 @@ export default {
 .article-post {
   display: flex;
 }
-
 </style>
