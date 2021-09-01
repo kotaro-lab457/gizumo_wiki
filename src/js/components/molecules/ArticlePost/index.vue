@@ -10,7 +10,7 @@
           :level="2"
           class="article-post-editor-title"
         >
-        カテゴリーの選択
+          カテゴリーの選択
         </app-heading>
         <app-select
           v-validate="'required'"
@@ -39,7 +39,7 @@
           :level="2"
           class="article-post-editor-title"
         >
-        タイトル・本文
+          タイトル・本文
         </app-heading>
         <div class="article-post-form">
           <app-input
@@ -105,10 +105,6 @@ export default {
     appText: Text,
   },
   props: {
-    title: {
-      type: String,
-      default: '',
-    },
     errorMessage: {
       type: String,
       default: '',
