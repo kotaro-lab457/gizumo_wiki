@@ -1,13 +1,13 @@
 <template lang="html">
   <div>
     <article-post
-      :title="title"
       :error-message="errorMessage"
       :selected-category-name="selectedCategoryName"
       :category-list="categoryList"
       :article-title="articleTitle"
       :article-content="articleContent"
       :markdown-content="markdownContent"
+      :loading="loading"
       :access="access"
       @selectedCategory="selectedCategory"
       @titleArticle="titleArticle"
@@ -61,8 +61,8 @@ export default {
   },
   methods: {
     selectedCategory($event) {
-      const { value } = $event.target.value;
-      this.$store.dispatch('articles/selectedArticleCategory', value);
+      const categoryName = $event.target.value;
+      this.$store.dispatch('articles/selectedArticleCategory', categoryName);
     },
     titleArticle($event) {
       const title = $event.target.value;
